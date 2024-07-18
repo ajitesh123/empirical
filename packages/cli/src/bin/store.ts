@@ -2,22 +2,30 @@ import { Dataset, RunCompletion } from "@empiricalrun/types";
 import { promises as fs } from "fs";
 
 const cwd = process.cwd();
-const datasetFileName = "dataset.json";
-const cacheDir = ".empiricalrun";
-const outputFilePath = (datasetId: string, runId: string) =>
-  `${cwd}/${cacheDir}/${datasetId}/${runId}.json`;
-const datasetFilePath = `${cwd}/${cacheDir}/${datasetFileName}`;
-
-export class RunsFileStore {
-  constructor() {}
-
-  async storeDataset(dataset: Dataset) {
-    await fs.mkdir(`${cwd}/${cacheDir}`, { recursive: true });
-    await fs.writeFile(datasetFilePath, JSON.stringify(dataset, null, 2));
+async storeDataset(dataset: Dataset) {
+    try {
+      await fs.mkdir(`${cwd}/${cacheDir}`, { recursive: true });
+      await fs.writeFile(datasetFilePath, JSON.stringify(dataset, null, 2));
+    } catch (error) {
+      console.error(`Error storing dataset: ${error.message}`);
+      throw new Error('Failed to store dataset');
+    }
   }
 
   async storeRunsForDatasetId(runs: RunCompletion[], dataset: Dataset) {
-    await fs.mkdir(`${cwd}/${cacheDir}/${dataset.id}`, { recursive: true });
+    try {
+      await fs.mkdir(`${cwd}/${cacheDir}/${dataset.id}`, { recursive: true });
+      await Promise.all(runs.map(async (run) => {
+        await fs.writeFile(
+          outputFilePath(dataset.id, run.id),
+          JSON.stringify(run, null, 2),
+        );
+      }));
+    } catch (error) {
+      console.error(`Error storing runs: ${error.message}`);
+      throw new Error('Failed to store runs');
+    }
+  }
     runs.forEach(async (run) => {
       await fs.writeFile(
         outputFilePath(dataset.id, run.id),
