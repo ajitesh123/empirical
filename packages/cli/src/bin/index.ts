@@ -162,15 +162,30 @@ program
     }
     app.use(express.static(path.join(__dirname, "../webapp")));
 
-    app.get("/api/results", async (req, res) =>
-      res.send(await fileStore.getResults()),
-    );
+app.get("/api/results", async (req, res) => {
+      try {
+        const results = await fileStore.getResults();
+        res.send(results);
+      } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch results' });
+      }
+    });
     app.get("/api/runs", async (req, res) => {
-      res.send(await fileStore.getRuns());
+      try {
+        const runs = await fileStore.getRuns();
+        res.send(runs);
+      } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch runs' });
+      }
     });
     app.get("/api/runs/:runId", async (req, res) => {
-      const { runId } = req.params;
-      res.sendFile(await fileStore.getRunFilePath(runId));
+      try {
+        const { runId } = req.params;
+        const filePath = await fileStore.getRunFilePath(runId);
+        res.sendFile(filePath);
+      } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch run file' });
+      }
     });
 
     const fullUrl = `http://localhost:${availablePort}`;
