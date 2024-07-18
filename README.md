@@ -6,6 +6,8 @@
 Empirical is the fastest way to test different LLMs, prompts and other model configurations, across all the scenarios
 that matter for your application.
 
+
+
 With Empirical, you can:
 
 - Run your test datasets locally against off-the-shelf models
@@ -21,7 +23,7 @@ With Empirical, you can:
 
 [See quick start on docs →](https://docs.empirical.run/quickstart)
 
-Empirical bundles together a CLI and a web app. The CLI handles running tests and
+Empirical bundles together a CLI and a We - web app. The CLI handles running tests and
 the web app visualizes results.
 
 Everything runs locally, with a JSON configuration file, `empiricalrc.json`.
