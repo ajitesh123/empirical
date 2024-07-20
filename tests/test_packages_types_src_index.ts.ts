@@ -1,0 +1,1 @@
+// No additional tests needed for the Scorer type, as it is a type definition.
