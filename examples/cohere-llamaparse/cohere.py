@@ -13,9 +13,12 @@ try:
         'Authorization': f'Bearer {get_env_variable("LLAMA_CLOUD_API_KEY")}'
       },
       timeout=TIMEOUT
-    )
-    response.raise_for_status()
-    parsed_response = response.json()
+response.raise_for_status()
+    try:
+        parsed_response = response.json()
+        doc_content = parsed_response['markdown']
+    except (ValueError, KeyError) as e:
+        return {"error": f"Failed to parse JSON response: {str(e)}"}
     doc_content = parsed_response['markdown']
     
     response = requests.post(
