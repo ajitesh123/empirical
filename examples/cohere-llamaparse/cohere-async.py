@@ -9,8 +9,13 @@ async def execute(inputs, parameters):
           }
         )
         response.raise_for_status()
-        parsed_response = response.json()
-        doc_content = parsed_response['markdown']
+                try:
+                    parsed_response = response.json()
+                    doc_content = parsed_response['markdown']
+                except ValueError as e:
+                    return {"error": f"Failed to parse JSON response: {str(e)}"}
+                except KeyError as e:
+                    return {"error": f"Expected key 'markdown' not found in response: {str(e)}"}
         
         response = await client.post(
             'https://api.cohere.ai/v1/chat',
