@@ -31,6 +31,10 @@ In this example, we will ask an LLM to extract entities from user messages and
 give us a structured JSON output. For example, "I'm Alice from Maryland" will
 become `{name: 'Alice', location: 'Maryland'}`.
 
+
+
+
+
 Our test will succeed if the model outputs valid JSON.
 
 1. Use the CLI to create a sample configuration file called `empiricalrc.js`.
