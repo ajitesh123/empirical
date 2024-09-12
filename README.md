@@ -15,6 +15,8 @@ With Empirical, you can
 
 https://github.com/empirical-run/empirical/assets/284612/65d96ecc-12a2-474d-a81e-bbddb71106b6
 
+
+
 ## Usage
 
 [**See all docs →**](https://docs.empirical.run/quickstart)
